@@ -1,0 +1,7 @@
+target,scope,elasticity,se,ci_low,ci_high,n,price_varying_zones
+energy_kwh,overall,-0.3214,0.0119,-0.3447,-0.2981,76754,108
+energy_kwh,peak_hours,-0.7239,0.0266,-0.7761,-0.6717,25612,108
+energy_kwh,offpeak_hours,-0.0092,0.0501,-0.1074,0.0891,25532,108
+utilization,overall,-0.2479,0.0075,-0.2625,-0.2333,77520,108
+utilization,peak_hours,-0.4238,0.015,-0.4531,-0.3944,25852,108
+utilization,offpeak_hours,-0.1356,0.0304,-0.1951,-0.076,25831,108

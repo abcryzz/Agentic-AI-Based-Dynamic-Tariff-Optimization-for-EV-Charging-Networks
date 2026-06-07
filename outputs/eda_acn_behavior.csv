@@ -1,0 +1,10 @@
+metric,value
+acn_median_dwell_hr,4.7356
+acn_median_charging_hr,2.2426
+acn_median_idle_hr,0.7253
+acn_median_idle_ratio,0.1818
+acn_pct_idle_gt_1h,0.4635
+acn_pct_identified,0.1489
+acn_user_gini,0.5839
+acn_top10pct_user_session_share,0.3996
+acn_median_laxity_hr,1.3489

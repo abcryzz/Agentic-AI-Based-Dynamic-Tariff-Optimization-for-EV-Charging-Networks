@@ -1,0 +1,6 @@
+bucket,utilization_range,learned_multiplier,Q_value
+0,"[0,0.15) very-low",1.0,0.8938
+1,"[0.15,0.30) low",1.0,0.9714
+2,"[0.30,0.80) mid",1.0,0.9007
+3,"[0.80,0.90) high",1.6,0.9739
+4,"[0.90,1.0] very-high",1.6,0.7911

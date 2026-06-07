@@ -1,0 +1,123 @@
+OP26 — Phase 0/1 run log
+generated: Fri Jun  5 04:59:17 UTC 2026 UTC
+python: Python 3.12.3
+============================================================
+================================================================
+PHASE 1  — preprocessing
+================================================================
+Reading raw data from: /mnt/project
+
+[ACN] 14,947 clean sessions (204 users, 54 stations) -> clean_acn_sessions.csv
+[UrbanEV] panel 177,840 rows (247 zones x 720 hours) -> urbanev_panel_hourly.csv.gz (+sample csv)
+[UrbanEV] zone profile 247 zones -> zone_features.csv
+[QA] data_quality_report.csv written
+
+
+=================== VALIDATION ===================
+ACN clean sessions       : 14,947  (users 204, stations 54, with_user_input 2,225)
+Panel shape              : 177,840 rows x 42 cols  (expected 177,840 rows)
+Utilization range        : 0.000 .. 1.000  (mean 0.280)
+Util-band share          : offpeak 0.611 | shoulder 0.379 | peak 0.009
+Energy reconciliation    : raw 78,274,742 == panel 78,274,742  -> True
+Non-lag missing columns  : ['revenue_per_kwh']
+Zone profile             : 247 zones (CBD 62, dynamic_pricing 57)
+
+=================== PHASE 2 (EDA) ===================
+================================================================
+PHASE 2  — EDA
+================================================================
+[figures] 8 saved -> figures/: fig01_intraday_utilization.png, fig02_util_heatmap_hour_dow.png, fig03_volatility_by_band.png, fig04_zone_utilization_distribution.png, fig05_spatial_map.png, fig06_top_bottom_zones.png, fig07_price_vs_demand.png, fig08_acn_behaviour.png
+[peak windows] peak hours (overall): [0, 1, 2, 3, 4, 5, 6, 23]
+[elasticity] preliminary (associational) ≈ -0.32 over 108 price-varying zones
+[outputs] peak_windows.csv, eda_*.csv, eda_findings.md written
+
+=================== PHASE 3 (Demand Agent) ===================
+================================================================
+PHASE 3  — Demand Prediction Agent
+================================================================
+
+Train/test split: warm-up<168h dropped; test = hour_index >= 624 (final 96h / 4 days). Test rows: 23,712
+
+Utilization — test RMSE (lower better):
+   GBM                0.0356  <-- GBM
+   persistence_1h     0.0523
+   climatology        0.0892
+   seasonal_weekly    0.0960
+   seasonal_daily     0.1033
+   GBM improves on best baseline (persistence_1h) by 31.9%
+Utilization R2 (GBM): 0.959 | MAE: 0.0214
+Energy load  R2 (GBM): 0.971 | RMSE: 219.2 kWh
+Congestion   AUC (GBM): 0.992 | avg-precision: 0.803 | base rate: 0.0097
+
+Top 5 features: util_lag1, util_lag2, util_lag168, zone, util_lag24
+[outputs] demand_predictions.csv, demand_metrics.csv, demand_metrics_by_zone.csv, feature_importance.csv, demand_model_*.joblib
+[figures] fig09_demand_pred.png, fig10_feature_importance.png, fig11_congestion_roc.png
+
+=================== PHASE 4 (Tariff Agent) ===================
+================================================================
+PHASE 4  — Tariff Pricing Agent
+================================================================
+Elasticity (associational, FWL zone+hour+dow FE): energy -0.321 | utilization -0.248
+
+Recommended policy (revenue-neutral load-shifting): discount 0.90× , surge 1.60×
+  Revenue gain %        : -0.26   (CBD -0.55 | non-CBD -0.22)
+  Utilization before    : 0.2922  ->  after 0.2928
+  Off-peak uplift %      : +0.81  (energy in discounted slots)
+  Peak util before/after: 0.873 -> 0.847  (+2.52 pp)
+  Surge slots 0.7% | discount slots 58.7%
+
+Frontier corners — revenue-max: -0.08% (m_min 0.95, m_max 1.6); uplift-max: +2.58% (m_min 0.7, m_max 1.2)
+[outputs] elasticity_estimates.csv, pricing_policy.csv, tariff_simulation.csv, revenue_gain.csv, offpeak_uplift.csv, pricing_findings.md
+[figures] fig12_pricing_policy.png, fig13_policy_frontier.png, fig14_outcomes.png
+
+=================== PHASE 5 (Monitoring & Learning) ===================
+================================================================
+PHASE 5  — Monitoring & Learning Agent
+================================================================
+Episodes: 60 | environment noise σ_u=0.05, σ_q=0.1 | true ε_energy -0.321
+
+Learning (first → last episode):
+  composite reward     : +0.885 → +0.943
+  pricing efficiency   : 0.848 → 0.868 CNY/kWh
+  avg wait reduction % : +28.92 → +57.52
+  customer response |ε̂|: 0.306 → 0.310  (true 0.321)
+
+Learned policy by utilization bucket:
+  [0,0.15) very-low        → ×1.00
+  [0.15,0.30) low          → ×1.00
+  [0.30,0.80) mid          → ×1.00
+  [0.80,0.90) high         → ×1.60
+  [0.90,1.0] very-high     → ×1.60
+
+Final policy comparison (full test set):
+                         rev_gain_pct  avg_wait_reduction_pct  peak_reduction_pp  pricing_efficiency  offpeak_uplift_pct
+flat_baseline                   0.000                   0.000              0.000               0.871               0.000
+phase4_fixed(0.90/1.60)        -0.262                  42.972              2.516               0.868               0.814
+learned_agent                   0.583                  56.913              5.853               0.878               0.000
+
+[outputs] episode_metrics.csv, monitoring_log.csv, learned_policy.csv
+[figures] fig15_learning_curve.png, fig16_policy_comparison.png
+
+=================== PHASE 6 (Robustness & Implications) ===================
+================================================================
+PHASE 6  — Robustness & implications
+================================================================
+A. Elasticity sweep: rev_gain ranges -0.34%..-0.08% across ε∈[-0.8,-0.1] — revenue stays ~neutral throughout.
+B. Trigger sweep (25 combos): rev_gain -0.80..+0.77%, peak_reduction 0.59..4.69 pp.
+C. Peak-definition stability: Jaccard vs tertile = {'tertile_top': 1.0, 'quartile_top': 0.75, 'above_mean': 0.727} (overnight peak is robust).
+D. CBD vs non-CBD:
+segment  n_zone_hours  demand_rmse  pct_slots_surged  pct_slots_discounted  rev_gain_pct  peak_reduction_pp
+    CBD          5952       0.0277              0.07                 67.47        -0.553              0.358
+non_CBD         17760       0.0379              0.86                 55.71        -0.218              2.667
+E. Demand ablation (utilization RMSE / R2):
+             model   RMSE     R2
+              full 0.0356 0.9591
+     no_weekly_lag 0.0350 0.9603
+no_lags_no_rolling 0.0832 0.7763
+
+[outputs] robustness_*.csv, implications.md
+[figures] fig17_robustness_elasticity.png, fig18_robustness_triggers.png, fig19_robustness_cbd.png
+
+=================== PHASE 7 (Presentation Deck) ===================
+Built deck/OP26_deck.pptx (10 slides): cover, executive summary, 6 content slides, 2 appendix.
+Rebuild: node deck/build_deck.js

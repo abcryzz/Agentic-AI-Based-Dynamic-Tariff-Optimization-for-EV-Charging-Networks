@@ -1,0 +1,25 @@
+metric,value
+acn_rows_raw,16304
+acn_valid_sessions,14999
+acn_dropped_nonpos_duration,0
+acn_dropped_long_duration,52
+acn_dropped_low_kwh,0
+acn_clean_sessions,14947
+acn_unique_stations,54
+acn_unique_users,204
+acn_with_user_input,2225
+acn_flag_neg_charging,17
+acn_flag_implausible_power,1
+acn_flag_neg_idle,765
+acn_date_min,2018-04-25 04:08:04-07:00
+acn_date_max,2018-12-15 19:01:46-08:00
+urbanev_zones,247
+urbanev_hours,720
+urbanev_panel_rows,177840
+urbanev_total_piles,18061
+urbanev_price_min,0.25
+urbanev_price_max,1.47
+urbanev_mean_utilization,0.28024247366473803
+urbanev_pct_hours_offpeak,0.6114878542510122
+urbanev_pct_hours_peak,0.009424201529464687
+urbanev_raw_missing_cells,0

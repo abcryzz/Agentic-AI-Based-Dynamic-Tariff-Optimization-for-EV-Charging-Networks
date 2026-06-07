@@ -1,0 +1,78 @@
+{
+ "fig01_intraday_utilization.png": [
+  1672,
+  788
+ ],
+ "fig02_util_heatmap_hour_dow.png": [
+  1754,
+  734
+ ],
+ "fig03_volatility_by_band.png": [
+  1192,
+  788
+ ],
+ "fig04_zone_utilization_distribution.png": [
+  1956,
+  788
+ ],
+ "fig05_spatial_map.png": [
+  1329,
+  1126
+ ],
+ "fig06_top_bottom_zones.png": [
+  1654,
+  833
+ ],
+ "fig07_price_vs_demand.png": [
+  1326,
+  856
+ ],
+ "fig08_acn_behaviour.png": [
+  1900,
+  1550
+ ],
+ "fig09_demand_pred.png": [
+  1400,
+  520
+ ],
+ "fig10_feature_importance.png": [
+  900,
+  650
+ ],
+ "fig11_congestion_roc.png": [
+  650,
+  600
+ ],
+ "fig12_pricing_policy.png": [
+  1000,
+  550
+ ],
+ "fig13_policy_frontier.png": [
+  950,
+  600
+ ],
+ "fig14_outcomes.png": [
+  1300,
+  520
+ ],
+ "fig15_learning_curve.png": [
+  1300,
+  900
+ ],
+ "fig16_policy_comparison.png": [
+  1400,
+  540
+ ],
+ "fig17_robustness_elasticity.png": [
+  1000,
+  560
+ ],
+ "fig18_robustness_triggers.png": [
+  1400,
+  500
+ ],
+ "fig19_robustness_cbd.png": [
+  1300,
+  500
+ ]
+}

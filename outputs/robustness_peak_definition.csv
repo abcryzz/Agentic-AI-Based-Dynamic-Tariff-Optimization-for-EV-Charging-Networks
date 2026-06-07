@@ -1,0 +1,4 @@
+method,n_peak_hours,peak_hours,jaccard_vs_tertile
+tertile_top,8,"00,01,02,03,04,05,06,23",1.0
+quartile_top,6,"00,01,02,03,05,06",0.75
+above_mean,11,"00,01,02,03,04,05,06,07,21,22,23",0.727

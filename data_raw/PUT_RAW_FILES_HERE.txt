@@ -1,0 +1,6 @@
+Place the raw OpenProject files in THIS folder (or set OP26_DATA to point elsewhere):
+
+  acndata_sessions_json.xlsx   occupancy.csv   volume.csv   duration.csv
+  price.csv   information.csv   stations.csv   adj.csv   distance.csv   time.csv
+
+Then run:  python preprocess.py      (or notebooks/01_preprocessing.ipynb)

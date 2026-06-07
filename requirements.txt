@@ -1,0 +1,18 @@
+# OP26 — Python environment (Python 3.10–3.12 recommended)
+# Install:  pip install -r requirements.txt
+#
+# These versions match the APIs the code actually uses. A fresh install
+# pulls the latest compatible release of each, which is fine.
+
+pandas>=2.2          # groupby(...).apply(include_groups=...) needs >=2.2
+numpy>=1.24          # code is compatible with both NumPy 1.x and 2.x
+scikit-learn>=1.5    # HistGradientBoosting categorical_features + class_weight
+matplotlib>=3.7
+seaborn>=0.12
+scipy>=1.10
+openpyxl>=3.1        # read the ACN .xlsx session file
+jupyter>=1.0         # only needed to run the notebooks (.ipynb)
+
+# OPTIONAL — the code does NOT require these:
+#   pyarrow         # only if you choose to switch the panel to .parquet
+#   lightgbm        # the code uses sklearn HistGradientBoosting instead
