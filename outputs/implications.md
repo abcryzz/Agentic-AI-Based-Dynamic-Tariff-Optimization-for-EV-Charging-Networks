@@ -3,19 +3,19 @@
 ## Robustness (every headline claim stress-tested)
 - **Elasticity** (`robustness_elasticity.csv`, fig17): re-simulating the recommended policy across
   ε_energy ∈ [-0.8, -0.1] keeps revenue ~neutral
-  (-0.34% to -0.08%) and operational gains positive throughout —
+  (-0.33% to -0.08%) and operational gains positive throughout —
   the "pricing is a load-balancing, not a revenue, tool" conclusion is **not** an artefact of the point estimate.
 - **Triggers** (`robustness_triggers.csv`, fig18): across 25 (discount, surge) threshold combos outcomes
-  move smoothly (rev_gain -0.80…+0.77%, peak relief
-  0.59…4.69 pp). The 0.30/0.80 choice is reasonable, not a knife-edge.
+  move smoothly (rev_gain -0.79…+0.78%, peak relief
+  0.61…4.75 pp). The 0.30/0.80 choice is reasonable, not a knife-edge.
 - **Peak definition** (`robustness_peak_definition.csv`): tertile / quartile / above-mean methods all
   identify the **overnight block** (Jaccard vs tertile tertile_top 1.0, quartile_top 0.75, above_mean 0.727).
 - **Segments** (`robustness_cbd.csv`, fig19): forecast RMSE is comparable (CBD 0.0277 vs
-  non-CBD 0.0379); surge incidence is higher for **non-CBD** (0.86%
-  vs CBD 0.07%) because that is where congestion actually is.
+  non-CBD 0.0379); surge incidence is higher for **non-CBD** (0.91%
+  vs CBD 0.1%) because that is where congestion actually is.
 - **Demand features** (`robustness_demand_ablation.csv`): dropping the weekly lag barely moves RMSE
-  (0.0356→0.035, redundant given the daily lags + zone identity), while dropping
-  **all** lags/rolling collapses the model to RMSE 0.0832 (R² 0.7763) — confirming that
+  (0.0356→0.0352, redundant given the daily lags + zone identity), while dropping
+  **all** lags/rolling collapses the model to RMSE 0.0831 (R² 0.7768) — confirming that
   short-horizon temporal structure, not zone identity alone, drives the forecast.
 
 ## Business implications

@@ -1,4 +1,4 @@
 model,RMSE,R2
-full,0.0356,0.9591
-no_weekly_lag,0.035,0.9603
-no_lags_no_rolling,0.0832,0.7763
+full,0.0356,0.959
+no_weekly_lag,0.0352,0.9599
+no_lags_no_rolling,0.0831,0.7768
